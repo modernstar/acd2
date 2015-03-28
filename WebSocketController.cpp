@@ -94,8 +94,10 @@ void WebSocketController::onConnectionClosed(Dumais::WebSocket::WebSocket* ws)
 
 void WebSocketController::onMessage(Dumais::WebSocket::WebSocket* ws, Dumais::WebSocket::WebSocketMessage message)
 {
+    std::string str;
+    str.assign((char*)message.buffer, message.size);
     JSON j;
-    j.parse((char*)message.buffer);
+    j.parse(str);
     if (j["request"].str() == "getqueues")
     {   
         this->sendQueues();
