@@ -1,0 +1,6 @@
+[submodule "json"]
+	path = json
+	url = https://github.com/pdumais/json
+[submodule "websocket"]
+	path = websocket
+	url = https://github.com/pdumais/websocket

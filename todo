@@ -1,0 +1,13 @@
+don't start RTP stream on outgoing call
+make FSM for call
+better log management
+
+
+future:
+    use epoll with resiprocate
+    make attended xfer
+        Q INVITE dest with hold audio
+        on OK, Q sends REFER to caller
+        expect 202 otherwise kill destination call.
+            set call as Transfering (do not allow a transfer again)
+        on Notify 200 OK, set as state Transfered.
