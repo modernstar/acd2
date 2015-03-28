@@ -1,6 +1,8 @@
 # acd2
 A SIP ACD server created for CTI systems. Provides a websocket/JSON control interface
 
+This project has dependencies on the json repo and the websocket repo. You must clone with --recursive
+
 Intro
 ==============
 Why is it called Acd2? Where is Acd1?
