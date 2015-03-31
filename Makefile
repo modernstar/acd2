@@ -1,5 +1,5 @@
 all: application
-OBJECTS = AccountSettings.o MusicOnHoldServer.o Acd.o Call.o CallManager.o UserAgent.o CallFactory.o AppDialogSetEndCommand.o RegistrationManager.o RegistrationDialogSet.o AppDialogSetRONACommand.o Logging.o StaticConfiguration.o helper.o DynamicConfiguration.o RTPSession.o RTPSessionFactory.o WebSocketController.o SoundFile.o
+OBJECTS = AccountSettings.o MusicOnHoldServer.o Acd.o Call.o CallManager.o UserAgent.o CallFactory.o AppDialogSetEndCommand.o RegistrationManager.o RegistrationDialogSet.o AppDialogSetRONACommand.o Logging.o StaticConfiguration.o helper.o DynamicConfiguration.o RTPSession.o RTPSessionFactory.o WebSocketController.o SoundFile.o PlayList.o
 SOURCES=$(OBJECTS:.o=.cpp)
 LIBS=json/json.a websocket/websocket.a
 INCLUDES=-I websocket/ -I json/

@@ -46,9 +46,9 @@ int main(int argc, char **argv)
     RTPSessionFactory rtpSessionFactory(atoi(config.getValue("LOWPORT").c_str()),atoi(config.getValue("HIGHPORT").c_str()));
 
     IControlServer *cs = new WebSocketController();
-    MusicOnHoldServer moh;
 
     AccountSettings account;
+    MusicOnHoldServer moh(config.getValue("MOH"));
     std::string localIP=config.getValue("LISTENADDRESS");
     rtpSessionFactory.setLocalIP(localIP);
 

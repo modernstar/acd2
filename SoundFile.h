@@ -15,6 +15,7 @@ public:
 
     bool open(std::string filename);
     int getSample(int size, char* buf);
+    void restart();
     std::string toString();
 };
 

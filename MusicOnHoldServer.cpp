@@ -2,6 +2,9 @@
 #include <algorithm>
 #include <unistd.h>
 #include "SoundFile.h"
+#include <sys/types.h>
+#include <dirent.h>
+#include "Logging.h"
 
 void *threadStarter(void *p)
 {
@@ -9,9 +12,12 @@ void *threadStarter(void *p)
     f->run();
 }
 
-MusicOnHoldServer::MusicOnHoldServer()
+MusicOnHoldServer::MusicOnHoldServer(const std::string& folder)
 {
+    this->mMOHFolder = folder;
+    mPlayList = new PlayList(true);
     pthread_mutex_init(&this->mQueueLock,0);
+    this->updateMOHFiles();
 }
 
 MusicOnHoldServer::~MusicOnHoldServer()
@@ -37,14 +43,11 @@ void MusicOnHoldServer::removeRTPSession(RTPSession *session)
 void MusicOnHoldServer::run()
 {
     uint8_t *buf = new uint8_t[CONF_RTP_PAYLOAD_SIZE];
-    SoundFile music(true);
-    music.open("moh.wav");
-    
 
     this->mRunning = true;
     while (this->mRunning)
     {
-        music.getSample(CONF_RTP_PAYLOAD_SIZE, (char*)buf);
+        this->mPlayList->getSample(CONF_RTP_PAYLOAD_SIZE, (char*)buf);
 
         pthread_mutex_lock(&this->mQueueLock);
         for (auto& it : this->mRTPSessionList)
@@ -70,3 +73,28 @@ void MusicOnHoldServer::stop()
     int ret = pthread_join(this->mThreadHandle,0);
 }
 
+void MusicOnHoldServer::updateMOHFiles()
+{
+    this->mPlayList->clear();
+    DIR *dir = opendir(this->mMOHFolder.c_str());
+    if(!dir) return;
+
+    dirent *de;
+    while (de = readdir(dir))
+    {
+        std::string fname = de->d_name;
+        if (fname == "." || fname == "..") continue;
+
+        SoundFile *sf = new SoundFile(false);
+        if (sf->open(this->mMOHFolder+"/"+fname))
+        {
+            Logging::log("MOH: %s\r\n",fname.c_str());
+            this->mPlayList->addSound(sf);
+        }
+        else
+        {
+            delete sf;
+        }
+    }
+    closedir(dir);
+}

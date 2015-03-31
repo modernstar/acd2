@@ -62,4 +62,7 @@ ACCOUNT_USERAGENT: ACD_SERVER
 
 #Timeout in seconds to requeue a transfered call if destination does not answer
 RONA: 10
+
+#Music on hold folder
+MOH: /var/acd/moh/
 ```

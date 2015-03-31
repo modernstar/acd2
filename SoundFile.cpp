@@ -71,12 +71,20 @@ int SoundFile::getSample(int size, char* buf)
        
     if (n<size)
     {
-        rewind(this->mSoundFile);
+        if (this->mRepeat)
+        {
+            rewind(this->mSoundFile);
+        }
     }
     return n;
 
 }
 
+void SoundFile::restart()
+{
+    if (!this->mSoundFile) return;
+    rewind(this->mSoundFile);
+}
 
 std::string SoundFile::toString()
 {
