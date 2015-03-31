@@ -41,11 +41,10 @@ Call* CallManager::call(const std::string& to)
 
     DialogUsageManager* dum = this->mUserAgent->getDUM();
     AccountSettings settings = this->mUserAgent->getAccountSettings();
-    std::string from = settings.mDisplayName;
 
     std::stringstream sst;
     sst << "sip:";
-    sst << to << "@" <<settings.mProxy;
+    sst << to << "@" <<settings.mServer;
     NameAddr dest(sst.str().c_str());
 
     SharedPtr<UserProfile> up(dum->getMasterUserProfile());
@@ -72,12 +71,8 @@ Call* CallManager::call(const std::string& to)
     SharedPtr<SipMessage> msg = dum->makeInviteSession(dest, up, &sdp, call);
     call->mTo = dest;
 
-    NameAddr f = this->mUserAgent->getDUM()->getMasterProfile()->getDefaultFrom();
-    msg->header(h_From).uri().user() = from.c_str();
     call->mOwner = msg->header(h_From);
-    call->mTo = msg->header(h_From);    
     dum->send(msg);
-    
 
     return call;
 }
@@ -93,7 +88,7 @@ void CallManager::blindTransfer(Call *source, std::string ext)
 
     std::stringstream sst;
     sst << "sip:";
-    sst << ext << "@" <<settings.mProxy;
+    sst << ext << "@" <<settings.mServer;
     NameAddr to(sst.str().c_str());
 
     /*  refer with implicit subscription. If we specify "no implicit subscription" (rfc 4488),

@@ -13,7 +13,7 @@ public:
 
     std::string mUserName;
     std::string mPin;
-    std::string mProxy;
+    std::string mServer;
     std::string mDisplayName;
     unsigned int mPort;
 

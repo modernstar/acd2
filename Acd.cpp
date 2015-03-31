@@ -149,6 +149,5 @@ void Acd::pickup(const std::string& callid, const std::string& ext)
     {
         call2->assignCall(call);
     }
-    //this->mCallManager->blindTransfer(dynamic_cast<Call*>(this->mCallList[callid].get()), ext);
 }
 

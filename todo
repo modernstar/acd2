@@ -1,13 +1,9 @@
+use a proxy
+    when sending call, use "domain" instead of "server"
+    same thing for blind refers
+
 don't start RTP stream on outgoing call
 make FSM for call
 better log management
 
-
-future:
-    use epoll with resiprocate
-    make attended xfer
-        Q INVITE dest with hold audio
-        on OK, Q sends REFER to caller
-        expect 202 otherwise kill destination call.
-            set call as Transfering (do not allow a transfer again)
-        on Notify 200 OK, set as state Transfered.
+use epoll with resiprocate

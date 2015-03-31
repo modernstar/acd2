@@ -9,7 +9,7 @@ AccountSettings::AccountSettings(const AccountSettings& settings){
 
     this->mUserName = settings.mUserName;
     this->mPin = settings.mPin;
-    this->mProxy = settings.mProxy;
+    this->mServer = settings.mServer;
     this->mDisplayName = settings.mDisplayName;    
     this->mPort = settings.mPort;
 }

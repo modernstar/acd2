@@ -34,14 +34,14 @@ UserAgent::UserAgent(AccountSettings settings, std::string userAgentName) : mPro
     std::stringstream sst;
 
     sst << "sip:";
-    sst << settings.mUserName << "@" <<settings.mProxy;
+    sst << settings.mUserName << "@" <<settings.mServer;
 
     NameAddr from(sst.str().c_str());
     from.displayName()=settings.mDisplayName.c_str();
-    Uri outboundProxy;
-    outboundProxy.host() = this->mAccountSettings.mProxy.c_str();
+    Uri outboundServer;
+    outboundServer.host() = this->mAccountSettings.mServer.c_str();
     this->mProfile->setUserAgent(userAgentName.c_str());
-    this->mProfile->setDigestCredential(this->mAccountSettings.mProxy.c_str(),this->mAccountSettings.mUserName.c_str(),this->mAccountSettings.mPin.c_str());
+    this->mProfile->setDigestCredential(this->mAccountSettings.mServer.c_str(),this->mAccountSettings.mUserName.c_str(),this->mAccountSettings.mPin.c_str());
     this->mProfile->setDefaultFrom(from);
     this->mProfile->addSupportedMimeType(resip::INFO, resip::Mime("application", "dtmf-relay"));
     this->mProfile->addSupportedMimeType(resip::NOTIFY, resip::Mime("application", "dialog-info+xml"));
