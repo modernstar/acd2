@@ -2,6 +2,7 @@
 A SIP ACD server created for CTI systems. Provides a websocket/JSON control interface
 
 This project has dependencies on the json repo and the websocket repo. You must clone with --recursive
+Also has external dependencies on resiprocate-1.9.6 and ortp-0.22.0
 
 Intro
 ==============
