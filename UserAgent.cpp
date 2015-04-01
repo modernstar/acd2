@@ -16,7 +16,7 @@ UserAgent::UserAgent(AccountSettings settings, std::string userAgentName) : mPro
     this->mRegistered = false;
 
     Log::setLevel(Log::None);
-//  Log::setLevel(Log::Debug);
+  Log::setLevel(Log::Debug);
 
     // Create SipStack
     this->mSipStack = new SipStack();    
@@ -32,16 +32,17 @@ UserAgent::UserAgent(AccountSettings settings, std::string userAgentName) : mPro
     // Create/Set MasterProfile
 
     std::stringstream sst;
-
     sst << "sip:";
-    sst << settings.mUserName << "@" <<settings.mServer;
-
+    sst << settings.mUserName << "@" <<settings.mDomain;
     NameAddr from(sst.str().c_str());
+
+    
     from.displayName()=settings.mDisplayName.c_str();
-    Uri outboundServer;
-    outboundServer.host() = this->mAccountSettings.mServer.c_str();
+    Uri outboundServer(std::string("sip:"+this->mAccountSettings.mServer).c_str());
+    this->mProfile->setOutboundProxy(outboundServer);
+    this->mProfile->addSupportedOptionTag(Token(Symbols::Outbound));
     this->mProfile->setUserAgent(userAgentName.c_str());
-    this->mProfile->setDigestCredential(this->mAccountSettings.mServer.c_str(),this->mAccountSettings.mUserName.c_str(),this->mAccountSettings.mPin.c_str());
+    this->mProfile->setDigestCredential(this->mAccountSettings.mDomain.c_str(),this->mAccountSettings.mUserName.c_str(),this->mAccountSettings.mPin.c_str());
     this->mProfile->setDefaultFrom(from);
     this->mProfile->addSupportedMimeType(resip::INFO, resip::Mime("application", "dtmf-relay"));
     this->mProfile->addSupportedMimeType(resip::NOTIFY, resip::Mime("application", "dialog-info+xml"));
@@ -93,14 +94,8 @@ resip::SipStack* UserAgent::getSipStack()
 
 void UserAgent::work()
 {
-    FdSet fdset;
-    //TODO: use epoll
-    this->mSipStack->buildFdSet(fdset);
-    int err = fdset.selectMilliSeconds(resipMin((int)mSipStack->getTimeTillNextProcessMS(), 200));
-    assert ( err != -1 );
-    this->mSipStack->process(fdset);
+    this->mSipStack->process(resipMin((int)mSipStack->getTimeTillNextProcessMS(), 200));
     while(this->mDum->process());
-
 }
 
 bool UserAgent::isRegistered()

@@ -44,7 +44,7 @@ Call* CallManager::call(const std::string& to)
 
     std::stringstream sst;
     sst << "sip:";
-    sst << to << "@" <<settings.mServer;
+    sst << to << "@" <<settings.mDomain;
     NameAddr dest(sst.str().c_str());
 
     SharedPtr<UserProfile> up(dum->getMasterUserProfile());
@@ -88,7 +88,7 @@ void CallManager::blindTransfer(Call *source, std::string ext)
 
     std::stringstream sst;
     sst << "sip:";
-    sst << ext << "@" <<settings.mServer;
+    sst << ext << "@" <<settings.mDomain;
     NameAddr to(sst.str().c_str());
 
     /*  refer with implicit subscription. If we specify "no implicit subscription" (rfc 4488),

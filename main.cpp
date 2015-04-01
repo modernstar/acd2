@@ -55,6 +55,7 @@ int main(int argc, char **argv)
     account.mUserName = config.getValue("ACCOUNT_USERNAME");
     account.mPin = config.getValue("ACCOUNT_PASSWORD");
     account.mServer = config.getValue("ACCOUNT_PBX_IP");
+    account.mDomain = config.getValue("ACCOUNT_DOMAIN");
     account.mDisplayName = config.getValue("ACCOUNT_DISPLAY_NAME");
     account.mPort = atoi(config.getValue("LISTENPORT").c_str());
     UserAgent ua(account,config.getValue("ACCOUNT_USERAGENT"));

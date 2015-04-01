@@ -1,9 +1,2 @@
-use a proxy
-    when sending call, use "domain" instead of "server"
-    same thing for blind refers
-
-don't start RTP stream on outgoing call
 make FSM for call
 better log management
-
-use epoll with resiprocate

@@ -13,7 +13,8 @@ public:
 
     std::string mUserName;
     std::string mPin;
-    std::string mServer;
+    std::string mServer; //outbound server or proxy
+    std::string mDomain;
     std::string mDisplayName;
     unsigned int mPort;
 

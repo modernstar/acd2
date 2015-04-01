@@ -45,7 +45,7 @@ void RegistrationManager::registerAccount(AccountSettings settings)
     this->mRegistrationDialogSet->setAccountSettings(settings);
 
     NameAddr uacAor;
-    std::string uri = "sip:" + settings.mUserName + "@" + settings.mServer;
+    std::string uri = "sip:" + settings.mUserName + "@" + settings.mDomain;
     uacAor = NameAddr(Uri(uri.c_str()));
 
     SharedPtr<SipMessage> msg = this->mDum->makeRegistration(uacAor, this->mRegistrationDialogSet);
