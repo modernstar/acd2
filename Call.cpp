@@ -25,6 +25,16 @@ Call::~Call()
         delete this->mRtpSession;
         this->mRtpSession = 0;
     }
+
+    if (mQueuedCall)
+    {
+        mQueuedCall->mAssignedCall = 0;
+    }
+    if (mAssignedCall)
+    {
+        mAssignedCall->mQueuedCall = 0;
+    }
+
 }
 
 void Call::setIncomming(bool i)

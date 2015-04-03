@@ -16,7 +16,7 @@ UserAgent::UserAgent(AccountSettings settings, std::string userAgentName) : mPro
     this->mRegistered = false;
 
     Log::setLevel(Log::None);
-  Log::setLevel(Log::Debug);
+//  Log::setLevel(Log::Debug);
 
     // Create SipStack
     this->mSipStack = new SipStack();    
