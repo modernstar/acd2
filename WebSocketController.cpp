@@ -33,7 +33,15 @@ void WebSocketController::setACD(Acd *acd)
 void WebSocketController::start()
 {
     this->mWebSocketServer = new Dumais::WebSocket::WebSocketServer(8056,100, new Dumais::WebSocket::ConsoleLogger());
-    this->mWebSocketServer->setWebSocketHandler(this);
+    this->mWebSocketServer->setOnWebSocketRequest([this](const std::string& request,
+        std::map<std::string,std::string> protocols,
+        std::string& chosenProtocol)
+    {
+        Logging::log("WebSocket request on %s\r\n",request.c_str());
+        if (request == "/") return true;
+        return false;
+    });
+
 }
 
 void WebSocketController::onQueuesChanged()
@@ -66,13 +74,6 @@ void WebSocketController::sendQueues()
 void WebSocketController::pickup(const std::string& callid, const std::string& ext)
 {
     this->mAcd->pickup(callid, ext);
-}
-
-bool WebSocketController::onWebSocketRequest(const std::string& request)
-{
-    Logging::log("WebSocket request on %s\r\n",request.c_str());
-    if (request == "/") return true;
-    return false;
 }
 
 void WebSocketController::onNewConnection(Dumais::WebSocket::WebSocket* ws)
