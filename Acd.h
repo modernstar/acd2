@@ -6,7 +6,7 @@
 #include <list>
 #include <resip/dum/AppDialogSet.hxx>
 #include "DynamicConfigurationObserver.h"
-#include "JSON.h"
+#include "json/JSON.h"
 #include "IAcdObserver.h"
 
 class Acd: public CallObserver, public DynamicConfigurationObserver{

@@ -1,0 +1,3 @@
+[submodule "dumaislib"]
+	path = dumaislib
+	url = http://github.com/pdumais/dumaislib

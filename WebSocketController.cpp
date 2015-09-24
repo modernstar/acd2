@@ -1,7 +1,7 @@
 #include "WebSocketController.h"
 #include "Logging.h"
 #include <string.h>
-#include "JSON.h"
+#include "json/JSON.h"
 
 using namespace Dumais::JSON;
 

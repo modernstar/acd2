@@ -1,8 +1,8 @@
 #pragma once
 
 #include "IControlServer.h"
-#include "WebSocketServer.h"
-#include "JSON.h"
+#include "websocket/WebSocketServer.h"
+#include "json/JSON.h"
 #include <queue>
 
 class WebSocketController: public IControlServer, public IAcdObserver
