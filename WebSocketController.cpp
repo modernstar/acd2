@@ -8,6 +8,7 @@ using namespace Dumais::JSON;
 
 WebSocketController::WebSocketController()
 {
+    Dumais::Utils::Logging::logger = new Dumais::Utils::ConsoleLogger();
     mWebSocketServer = 0;
 }
 
@@ -32,7 +33,7 @@ void WebSocketController::setACD(Acd *acd)
 
 void WebSocketController::start()
 {
-    this->mWebSocketServer = new Dumais::WebSocket::WebSocketServer(8056,100, new Dumais::WebSocket::ConsoleLogger());
+    this->mWebSocketServer = new Dumais::WebSocket::WebSocketServer(8056,100);
     this->mWebSocketServer->setOnWebSocketRequest([this](const std::string& request,
         std::map<std::string,std::string> protocols,
         std::string& chosenProtocol)
@@ -41,6 +42,11 @@ void WebSocketController::start()
         if (request == "/") return true;
         return false;
     });
+
+    this->mWebSocketServer->setOnNewConnection(std::bind(&WebSocketController::onNewConnection,this,std::placeholders::_1));
+    this->mWebSocketServer->setOnConnectionClosed(std::bind(&WebSocketController::onConnectionClosed,this,std::placeholders::_1));
+    this->mWebSocketServer->setOnMessage(std::bind(&WebSocketController::onMessage,this,std::placeholders::_1,std::placeholders::_2));
+
 
 }
 
@@ -61,6 +67,7 @@ void WebSocketController::stop()
 
 void WebSocketController::sendQueues()
 {
+    Logging::log("WebSocketController::sendQueuesr\n");
     JSON j;
     this->mAcd->getQueues(j);
 
@@ -99,6 +106,7 @@ void WebSocketController::onMessage(Dumais::WebSocket::WebSocket* ws, Dumais::We
     str.assign((char*)message.buffer, message.size);
     JSON j;
     j.parse(str);
+    Logging::log("WebSocketController::onMessage: %s\r\n",j["request"].str().c_str());
     if (j["request"].str() == "getqueues")
     {   
         this->sendQueues();

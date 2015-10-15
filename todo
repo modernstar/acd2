@@ -1,2 +1,2 @@
+make routing strategies: hunt for first available agent, pickup using websocket
 make FSM for call: it is very messy right now
-better log management
